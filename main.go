@@ -2,8 +2,8 @@ package main
 
 import (
 	"github.com/Deansquirrel/goRabbitMQDemo/common"
-	"github.com/Deansquirrel/goRabbitMQDemo/global"
 	"github.com/Deansquirrel/goRabbitMQDemo/worker"
+	"time"
 )
 
 func main() {
@@ -23,6 +23,11 @@ func main() {
 	}
 	w.TestPublish()
 	//==================================================================================================================
+	ch := make(chan struct{})
+	time.AfterFunc(time.Minute*10, func() {
+		ch <- struct{}{}
+	})
+	<-ch
 }
 
 func refreshConfig() error {
@@ -30,7 +35,6 @@ func refreshConfig() error {
 	if err != nil {
 		return err
 	}
-	global.SysConfig = config
 	common.RefreshCurrConfig(config)
 	return nil
 }
