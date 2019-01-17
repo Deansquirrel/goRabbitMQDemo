@@ -16,6 +16,14 @@ func main() {
 	common.PrintOrLog("程序启动")
 	defer common.PrintOrLog("程序退出")
 	//==================================================================================================================
+	//等待初始连接建立
+	time.Sleep(time.Second)
+	//==================================================================================================================
+	ch := make(chan struct{})
+	time.AfterFunc(time.Second*1000, func() {
+		ch <- struct{}{}
+	})
+	//==================================================================================================================
 	w, err := worker.NewTestWorker()
 	if err != nil {
 		common.PrintAndLog(err.Error())
@@ -23,10 +31,6 @@ func main() {
 	}
 	w.TestPublish()
 	//==================================================================================================================
-	ch := make(chan struct{})
-	time.AfterFunc(time.Minute*10, func() {
-		ch <- struct{}{}
-	})
 	<-ch
 }
 
@@ -35,6 +39,9 @@ func refreshConfig() error {
 	if err != nil {
 		return err
 	}
-	common.RefreshCurrConfig(config)
+	err = common.RefreshCurrConfig(config)
+	if err != nil {
+		return err
+	}
 	return nil
 }
