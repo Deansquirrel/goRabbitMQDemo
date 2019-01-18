@@ -20,7 +20,7 @@ func main() {
 	time.Sleep(time.Second)
 	//==================================================================================================================
 	ch := make(chan struct{})
-	time.AfterFunc(time.Second*1000, func() {
+	time.AfterFunc(time.Second*300, func() {
 		ch <- struct{}{}
 	})
 	//==================================================================================================================
@@ -39,7 +39,7 @@ func refreshConfig() error {
 	if err != nil {
 		return err
 	}
-	err = common.RefreshCurrConfig(config)
+	err = worker.RefreshCurrConfig(config)
 	if err != nil {
 		return err
 	}
