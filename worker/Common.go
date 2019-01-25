@@ -87,15 +87,15 @@ func rabbitMqInit() error {
 		return err
 	}
 	//==================================================================================================================
-	err = r.QueueBind(conn, "A", "A.*.*", "exchangeTopic", false)
+	err = r.QueueBind(conn, "A", "", "exchangeFanOut", false)
 	if err != nil {
 		return err
 	}
-	err = r.QueueBind(conn, "B", "*.B.*", "exchangeTopic", false)
+	err = r.QueueBind(conn, "B", "", "exchangeFanOut", false)
 	if err != nil {
 		return err
 	}
-	err = r.QueueBind(conn, "C", "*.*.C", "exchangeTopic", false)
+	err = r.QueueBind(conn, "C", "", "exchangeFanOut", false)
 	if err != nil {
 		return err
 	}
